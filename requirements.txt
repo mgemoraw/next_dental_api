@@ -1,0 +1,12 @@
+fastapi
+pydantic
+sqlmodel
+python-jose
+cryptography
+sqlalchemy
+pymysql
+dotenv
+pydantic[email]
+pymysql
+psycopg2
+
