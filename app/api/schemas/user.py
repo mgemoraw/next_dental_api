@@ -1,33 +1,29 @@
-from sqlmodel import SQLModel, Field, Relationship
+
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr
+from .address import Address
 
-class User(BaseModel):
+class UserResponse(BaseModel):
+    id: int 
+    username: str 
+    email: str 
+    role: str 
+  
+    class Config:
+        orm_mode = True
+
+class UserCreate(BaseModel):
     username: str
-    email: str
-    hashed_password: str
+    email: str 
+    password: str
+    role: str 
 
     class Config:
         orm_mode = True
 
-
-class Address(BaseModel):
-    id: int = Field(primary_key=True)
-    address1: str
-    address2: str
-    email: str
-    phone: str 
-
-    user: Optional['User'] = Relationship(back_populates='address')
-
-
 class CreateUserRequest(BaseModel):
-    first_name: str
-    last_name: str
-    email: EmailStr
-    password: str
-
+    pass
  
 class User(BaseModel):
     id: int
@@ -42,6 +38,7 @@ class User(BaseModel):
 
 class LoggedUser(BaseModel):
     id: int
+    email: str
     username: str
     password: str
     role: str
@@ -50,7 +47,3 @@ class LoggedUser(BaseModel):
 class UserRoles(BaseModel):
     id: str
     role: str
-
-
-class UserInDB(User):
-    hashed_password: str

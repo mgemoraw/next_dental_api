@@ -2,7 +2,7 @@ from sqlalchemy import String, Integer, Column, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 from datetime import datetime
-from core.database import Base
+from core.database import Base, engine
 
 
 class Patient(Base):
@@ -28,3 +28,8 @@ class Patient(Base):
     updated_by = Column(String(50))
     updated_at = Column(DateTime, default=datetime.utcnow())
 
+
+    def __repr__(self):
+        return self.fname
+
+Patient.metadata.create_all(bind=engine)

@@ -39,9 +39,9 @@ def greet():
     return JSONResponse(content=greeting)
 
 
-@router.post('', status_code=status.HTTP_201_CREATED)
-async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
-    await create_user_account(data=data, db=db)
-    payload = {"message": "Usre account has been successfully created"} 
+# @router.post('', status_code=status.HTTP_201_CREATED)
+# async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
+#     await create_user_account(data=data, db=db)
+#     payload = {"message": "Usre account has been successfully created"} 
 
-    return JSONResponse(content=payload)
+#     return JSONResponse(content=payload)
