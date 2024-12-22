@@ -20,4 +20,4 @@ __all__ = [
     UserModel,
 ]
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)

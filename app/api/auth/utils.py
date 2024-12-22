@@ -2,15 +2,14 @@ from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Request, status
 
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
 from api.models import User
-from api.schemas.user import UserCreate
+from api.schemas.user import UserCreate, TokenData, UserSchema
 from core.deps import SECRET_KEY, ALGORITHM, get_db
-
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "api/v1/token")
@@ -21,6 +20,12 @@ oauth2_bearer_dependency=Annotated[str, Depends(oauth2_bearer)]
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+
+credentials_exception = HTTPException( 
+    status_code=status.HTTP_401_UNAUTHORIZED, 
+    detail="Could not validate credentials", 
+    headers={"WWW-Authenticate": "Bearer"}, 
+    )
 
 def get_user_by_username(db: Session, username:str):
     return db.query(User).filter(User.username==username).first()
@@ -83,7 +88,6 @@ def verify_token(token: str = Depends(oauth2_bearer)):
         raise HTTPException(status_code=403, details="Token is invalid or expired")
 
 
-
 def get_current_user(token: oauth2_bearer_dependency):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -93,5 +97,7 @@ def get_current_user(token: oauth2_bearer_dependency):
         return payload
     except JWTError:
         raise HTTPException(status_code=403, detail="Token is invalid or expired")
+
+
 
 user_dependency = Annotated[dict, Depends(get_current_user)]

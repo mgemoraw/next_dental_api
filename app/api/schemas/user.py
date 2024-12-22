@@ -4,6 +4,11 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 from .address import Address
 
+
+class UserSchema(BaseModel):
+    username: str 
+    email: str
+
 class UserResponse(BaseModel):
     id: int 
     username: str 
@@ -48,3 +53,15 @@ class LoggedUser(BaseModel):
 class UserRoles(BaseModel):
     id: str
     role: str
+
+
+class Token(BaseModel):
+    access_token: str 
+    token_type: str 
+
+class TokenData(BaseModel):
+    username: str | None = None 
+    password: str | None = None
+
+class UserInDB(UserSchema):
+    hashed_password: str
