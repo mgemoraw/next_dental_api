@@ -1,7 +1,7 @@
 from typing import Annotated
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-from core.config import get_settings 
+from core import get_settings 
 
 
 settings = get_settings()
@@ -30,11 +30,11 @@ class Base(DeclarativeBase):
 # database dependency
 
 
-def get_db():
-    db = SessionLocal()
-    # Base.metadata.create_all(bind=engine)
-    try:
-        yield  db 
-    finally:
-        db.close()
+# def get_db():
+#     db = SessionLocal()
+#     # Base.metadata.create_all(bind=engine)
+#     try:
+#         yield  db 
+#     finally:
+#         db.close()
 

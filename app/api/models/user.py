@@ -12,13 +12,14 @@ from datetime import datetime
 class UserModel(Base):
     __tablename__ = "usersmodel"
     id: int = Column(Integer, primary_key=True, index=True)
-    userId: Mapped['str']  = Column(String(100), unique=True)
+    user_id: Mapped['str']  = Column(String(100), unique=True)
     username: Mapped['str']  = Column(String(100), unique=True)
     first_name: Mapped[str] = Column(String(100))
     middle_name: Mapped[str] = Column(String(100))
     last_name: Mapped[str] = Column(String(100))
     email: Mapped[str] = Column(String(255), unique=True, index=True)
     password: Mapped[str] = Column(String(100))
+    role: Mapped[str] = Column(String(30), default=None)
     is_active: Mapped[bool] = Column(Boolean, default=False)
     is_verified: Mapped[bool] = Column(Boolean, default=False)
     verified_at: Mapped[bool] = Column(DateTime, nullable=True, default=None)
@@ -28,6 +29,7 @@ class UserModel(Base):
     updated_at: Mapped[DateTime] = Column(DateTime, nullable=True, onupdate=datetime.now())
     created_at: Mapped[DateTime] = Column(DateTime, nullable=True, server_default=func.now())
 
+    # posts = relationship("Post", back_populates='user')
 
     def __repr__(self):
         return self.username

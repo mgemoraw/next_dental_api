@@ -25,10 +25,25 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 def get_user_by_username(db: Session, username:str):
     return db.query(User).filter(User.username==username).first()
 
+def get_user_by_id(db: Session, user_id: int):
+    return db.query(User).filter(User.id==user_id).first()
+
+def delete_user_by_id(db: Session, user_id: int):
+    db_user = db.query(User).filter(User.id==user_id).first()
+    if db_user:
+        db.delete(db_user)
+        db.commit()
+        return "complete"
+    return "failed"
 
 def create_user(db: Session, user: UserCreate):
     hashed_password = pwd_context.hash(user.password)
-    db_user = User(username=user.username, hashed_password=hashed_password)
+    db_user = User(
+        username=user.username, 
+        hashed_password=hashed_password, 
+        role=user.role, 
+        email=user.email,
+    )
     db.add(db_user)
     db.commit()
     return "complete"
@@ -79,3 +94,4 @@ def get_current_user(token: oauth2_bearer_dependency):
     except JWTError:
         raise HTTPException(status_code=403, detail="Token is invalid or expired")
 
+user_dependency = Annotated[dict, Depends(get_current_user)]

@@ -5,23 +5,25 @@ from datetime import datetime
 
 
 class ServiceType(BaseModel):
-    id: int
     name: str
     code: str
 
     class Config:
         orm_mode = True
+
 
 class Service(BaseModel):
-    id: int
-    service_type_idfk: ServiceType
+    service: Optional[ServiceType]
     name: str
     code: str
+    price: float
+
+
     class Config:
         orm_mode = True
 
+
 class Product(BaseModel):
-    id: int
     name: str
     material_type: str
     manufacturer: str
@@ -32,8 +34,7 @@ class Product(BaseModel):
 
 
 class Inventory(BaseModel):
-    id: int
-    product_idfk: Product
+    product: Product
     quantity: float
     buy_unit_price: float
     sale_margin: float
@@ -41,8 +42,8 @@ class Inventory(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Patient(BaseModel):
-    id: int
     fname: str
     mname: str
     lname: str
@@ -62,51 +63,53 @@ class Patient(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Appointment(BaseModel):
-    id: int
-    patient_idfk: Patient
-    app_date: datetime
+    patient: Patient
+    appointment_date: datetime
     discharged_date: datetime
     description: str
     appointment_type: str # checkup follow-up treatment other
     patient_notified: bool # true/false, default false,
-    doctor_idfk: str
+    doctor: Optional['Doctor']
     status: str # admited, compmleted, appointed, cancelled
 
     class Config:
         orm_mode = True
 
+
 class AppointmentService(BaseModel):
     # treatment
-    id: int
-    appointment_idfk: Appointment
-    service_idfk: str
-
+    appointment: Optional['Appointment']
+    service: Optional['Service']
+    treatment: Optional[str]
     status: str # pending, completed, cancelled
     description: str
 
     class Config:
         orm_mode = True
 
+
 class TreatmentProduct(BaseModel):
-    id: int
-    appointment_service_idfk: AppointmentService
-    product_idfk: str
+    appointment_service: Optional['AppointmentService']
+    product: Optional['Product']
     product_quantity: float
     class Config:
         orm_mode = True
 
+
 class Billing(BaseModel):
-    id: int
-    appointment_idfk: Appointment
+    appointment: Optional['Appointment']
     billing_date: datetime
     payment_plan: str
+
+
     class Config:
         orm_mode = True
 
+
 class BillingAppointmentService(BaseModel):
-    id: int
-    billing_idfk: Billing
+    billing: Optional['Billing']
     billing_appointment_service_id: str
     service_or_product_id: str
 
@@ -117,14 +120,17 @@ class BillingAppointmentService(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Payment(BaseModel):
-    id: int
-    billing_idfk: str
+    billing: Optional['Billing']
     payment_date: datetime
     paid_amount: float
     payment_status: str
+
+
     class Config:
         orm_mode = True
+
 
 class Employee(BaseModel):
     fname: str
@@ -132,11 +138,22 @@ class Employee(BaseModel):
     lname: str
     sex: str
     address: Optional['Address']
-    user: Optional['LoggedUser']
+    user: Optional['User']
     contact: Optional['Contact']
+    employed_date: datetime
+    department: str # department name given in the clinic
 
     class Config:
         orm_mode = True
+
+
+class Doctor(Employee):
+    did: str
+    speciality: str
+
+    class Config:
+        orm_mode = True
+
 
 class Address(BaseModel):
     city: str
@@ -154,7 +171,8 @@ class Contact(BaseModel):
     class Config:
         orm_mode = True
 
-class LoggedUser(BaseModel):
+
+class User(BaseModel):
     username: str
     email: str
     hashed_password: str
@@ -167,8 +185,7 @@ class LoggedUser(BaseModel):
 class UserCreate(BaseModel):
     username: str
     email: str
-    password1: str
-    password2: str
+    password: str
     role: str
 
     class Config:

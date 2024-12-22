@@ -5,13 +5,11 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from jose import jwt, JWTError
-from dotenv import load_dotenv
 import os
-from core.database import SessionLocal
 
-load_dotenv()
-SECRET_KEY=os.getenv('SECRET_KEY')
-ALGORITHM=os.getenv('ALGORITHM')
+from . import SessionLocal
+from . import SECRET_KEY, ALGORITHM
+
 
 def get_db():
     db = SessionLocal()

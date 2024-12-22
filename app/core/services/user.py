@@ -19,6 +19,7 @@ async def create_user_account(data, db):
         last_name=data.last_name,
         email=data.email,
         password=get_password_hash(data.password),
+        role=data.role,
         is_active=False,
         is_verified=False,
         registered_at=datetime.now(),

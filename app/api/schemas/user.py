@@ -8,6 +8,7 @@ class UserResponse(BaseModel):
     id: int 
     username: str 
     email: str 
+    password: str
     role: str 
   
     class Config:
@@ -25,7 +26,7 @@ class UserCreate(BaseModel):
 class CreateUserRequest(BaseModel):
     pass
  
-class User(BaseModel):
+class UserModel(BaseModel):
     id: int
     userId: str
     username: str

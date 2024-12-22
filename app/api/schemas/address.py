@@ -13,9 +13,15 @@ class Address(BaseModel):
     street: str
     house_number: str
     zipcode: str
+    class Config:
+        orm_mode = True
+
 
 class GeoLocation(BaseModel):
     id: int
     lat: str
     lng: str
+
+    class Config:
+        orm_mode = True
 

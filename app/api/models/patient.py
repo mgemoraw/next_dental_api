@@ -1,5 +1,5 @@
-from sqlalchemy import String, Integer, Column, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Integer, Column, DateTime, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from datetime import datetime
 from core.database import Base, engine
@@ -29,7 +29,11 @@ class Patient(Base):
     updated_at = Column(DateTime, default=datetime.utcnow())
 
 
+    # appointment_idfk = Column(Integer, ForeignKey('appointments.id', ondelete='CASCADE'))
+    appointment = relationship('Appointment', back_populates='patient')
+
+    
     def __repr__(self):
         return self.fname
 
-Patient.metadata.create_all(bind=engine)
+# Patient.metadata.create_all(bind=engine)

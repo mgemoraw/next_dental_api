@@ -10,7 +10,7 @@ from api.schemas.posts import PostCreate, PostResponse
 from api.schemas.user import UserCreate, UserResponse
 from  sqlalchemy.orm import Session 
 
-from .utils import ACCESS_TOKEN_EXPIRE_MINUTES, authenticate_user, create_access_token, create_user, get_current_user, get_user_by_username, verify_token
+from .utils import ACCESS_TOKEN_EXPIRE_MINUTES, authenticate_user, create_access_token, create_user, get_current_user, get_user_by_username, verify_token, delete_user_by_id, get_user_by_id
 
 router = APIRouter(
     prefix="/api/v1",
@@ -33,12 +33,12 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 
-# @router.post("/registr")
-# def register_user(user: UserCreate, db: Session = Depends(get_db)):
-#     db_user = get_user_by_username(db, username=user.username)
-#     if db_user:
-#         raise HTTPException(status_code=400, detail="Username exists")
-#     return create_user(db=db, user=user)
+@router.delete("/delete/{id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = get_user_by_id (db, user_id=user_id)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="Username doesn't exist")
+    return delete_user_by_id(db=db, user_id=user_id)
 
 
 @router.post("/token")

@@ -18,6 +18,9 @@ class Employee(BaseModel):
     address: Optional['Address']
     zipcode: str
 
+    class Config:
+        orm_mode = True
+
 class EmployeeForm(BaseModel):
     id: int
     employee_id: str
@@ -28,4 +31,7 @@ class EmployeeForm(BaseModel):
     phone: str
     address: Optional['Address']
     zipcode: str
+
+    class Config:
+        orm_mode = True
 

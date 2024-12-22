@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import users
 from api.auth import auth_route
+from api.routes import patient
 app = FastAPI()
 
 origins = [
@@ -18,3 +19,4 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(auth_route.router)
+app.include_router(patient.router)

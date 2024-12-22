@@ -24,6 +24,9 @@ class Patient(BaseModel):
     updated_by: str
     updated_at: str
 
+    class Config:
+        orm_mode = True
+
 
 class PatientForm(BaseModel):
     pID: str = None
@@ -40,3 +43,6 @@ class PatientForm(BaseModel):
     previous_medical_condition: str
     emergency_contact: str
     sergical_history: str
+
+    class Config:
+        orm_mode = True

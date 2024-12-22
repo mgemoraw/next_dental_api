@@ -19,6 +19,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 env_path= os.path.join(BASE_DIR, ".env")
 load_dotenv(dotenv_path=env_path)
 
+SECRET_KEY=os.getenv('SECRET_KEY')
+ALGORITHM=os.getenv('ALGORITHM')
+
 
 
 class Settings(BaseSettings):
