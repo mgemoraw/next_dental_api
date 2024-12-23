@@ -28,8 +28,8 @@ from .utils import (
 
 
 router = APIRouter(
-    prefix="/api/v1",
-    tags = ["api"],
+    prefix="/dental/api/v1/employees",
+    tags = ["auth"],
 )
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
@@ -85,8 +85,7 @@ async def verify_user_token(token: str):
     return {"message": "Token is valid"}
 
 
-
-@router.get("/auth/users")
+@router.get("/users")
 async def get_users(user: user_dependency, db: Session=Depends(get_db)):
     if user:
         users = db.query(User).all()

@@ -22,4 +22,10 @@ class Employee(Base):
 class Doctor(Base):
     __tablename__ = "doctors"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    
+    eid: Mapped[str] = mapped_column(String(30), unique=True)
+    fname: Mapped[str] = mapped_column(String(50))
+    mname: Mapped[str] = mapped_column(String(50))
+    lname: Mapped[str] = mapped_column(String(50))
+    email: Mapped['str'] = mapped_column(String(100), unique=True, index=True)
+    phone: Mapped[str] = mapped_column(String(15))
+    speciality: Mapped[str] = mapped_column(String(100), default=None)

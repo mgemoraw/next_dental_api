@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, String, Integer
+from sqlalchemy import ForeignKey, String, Integer, Float
 from core.database import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional, List
@@ -19,12 +19,16 @@ class Service(Base):
     __tablename__ = "services"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    service_type_idfk: Mapped[Optional[int]] = mapped_column(ForeignKey('service_types.id', ondelete='CASCADE'))
+    service_type_idfk: Mapped[int] = mapped_column(ForeignKey('service_types.id', ondelete='CASCADE'))
     name: Mapped[str] = mapped_column(String(100))
     code: Mapped[str] = mapped_column(String(100))
-
+    price: Mapped[float] = mapped_column(Float)
     # relationship
-    service_type: Mapped[ServiceType] = relationship(back_populates='services')
+    service_type: Mapped['ServiceType'] = relationship('ServiceType', back_populates='services')
+
+    def __repr__(self):
+        return self.name
+
 
 class Product(Base):
     __tablename__ = "products"

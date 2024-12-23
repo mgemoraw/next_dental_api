@@ -1,8 +1,32 @@
 
 import os
 
-from .patient import PatientForm, PatientResponse
+from .patient import (
+    PatientForm, 
+    PatientResponse
+)
+
+from .create_assets import (
+    ProductCreate,
+    ServiceCreate,
+    ServiceTypeCreate,
+    InventoryCreate,
+)
+
+from .user import (
+    Token, 
+    TokenData,  
+    UserCreate,
+    UserLogin,
+)
 
 
-from .user import Token, UserSchema, TokenData,  UserCreate
+from .dental_schemas import (
+    Service,
+    ServiceType,
+    Product,
+    Inventory,
+    Contact,
+    Address,
+)
 

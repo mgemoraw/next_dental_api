@@ -8,12 +8,12 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
 from api.models import User
-from api.schemas.user import UserCreate, TokenData, UserSchema
+from api.schemas.user import UserCreate, TokenData, UserLogin
 from core.deps import SECRET_KEY, ALGORITHM, get_db
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "api/v1/token")
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl='api/v1/token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "dental/api/v1/employees/token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl='dental/api/v1/employees/login')
 oauth2_bearer_dependency=Annotated[str, Depends(oauth2_bearer)]
 
 # Your JWT secret and algorithm
@@ -93,7 +93,7 @@ def get_current_user(token: oauth2_bearer_dependency):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
-            raise HTTPException(status_code=403, detail="Token is INvalid or expired")
+            raise HTTPException(status_code=403, detail="Token is Invalid or expired")
         return payload
     except JWTError:
         raise HTTPException(status_code=403, detail="Token is invalid or expired")

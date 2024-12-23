@@ -5,10 +5,6 @@ from pydantic import BaseModel, EmailStr
 from .address import Address
 
 
-class UserSchema(BaseModel):
-    username: str 
-    email: str
-
 class UserResponse(BaseModel):
     id: int 
     username: str 
@@ -42,12 +38,9 @@ class UserModel(BaseModel):
     address: Optional['Address'] = None
     role: Optional['UserRoles'] = None
 
-class LoggedUser(BaseModel):
-    id: int
-    email: str
+class UserLogin(BaseModel):
     username: str
     password: str
-    role: str
 
 
 class UserRoles(BaseModel):
@@ -63,5 +56,5 @@ class TokenData(BaseModel):
     username: str | None = None 
     password: str | None = None
 
-class UserInDB(UserSchema):
+class UserInDB(UserLogin):
     hashed_password: str

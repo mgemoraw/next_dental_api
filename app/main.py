@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import users
+from api.routes import users_route
 from api.auth import auth_route
-from api.routes import patient
+from api.routes import patients_route
+from api.routes import assets_route
+
+
 app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "http://localhost:4000",
+    "http://0.0.0.0:3000",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +20,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-app.include_router(users.router)
-app.include_router(auth_route.router)
-app.include_router(patient.router)
+app.include_router(users_route.router)
+# app.include_router(auth_route.router)
+app.include_router(patients_route.router)
+app.include_router(assets_route.router)
