@@ -1,1 +1,8 @@
 .ini
+
+.env 
+.env.local
+.env.dev
+
+/__pycache__
+/alembic

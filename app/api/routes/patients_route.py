@@ -29,7 +29,7 @@ async def create_patient(patient: PatientForm, user: user_dependency, db: Sessio
     return new_patient
 
 @router.get("/index", response_model=None)
-async def get_patients(user:User = Depends(get_current_active_user), db:Session=Depends(get_db), limit:int=0):
+async def get_patients(user:User = Depends(get_current_active_user), db:Session=Depends(get_db), limit:int=10):
   patients=db.query(Patient).limit(limit).all()
     
   if patients:

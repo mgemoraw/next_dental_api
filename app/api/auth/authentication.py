@@ -79,6 +79,8 @@ def get_current_active_user(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     
     if not token:
+        logger.info(f"request client {request.cookies}")
+
         logger.info("Token not found in cookies")
         raise credentials_exception
 
@@ -105,10 +107,11 @@ def get_current_active_user(request: Request, db: Session = Depends(get_db)):
 
 
 def get_current_user(
-    request: Request, db: Session = Depends(get_db)
+   request: Request, db: Session = Depends(get_db)
 ):
     token = request.cookies.get("access_token")
     if not token:
+        logger.info(f"{request.cookies}")
         logger.info("Token not found in cookies")
         raise credentials_exception
 
