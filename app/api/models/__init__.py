@@ -10,17 +10,17 @@ from .dental_types import (
     Inventory,
 )
 
+from .patient import (
+    Role,
+    Visit,
+    Doctor,
+    Permission,
+    Payment,
+    )
 
 from .events import Event
 
 from core.database import Base, engine
 
-
-__all__ = [
-    Employee,
-    Patient,
-    User,
-    UserModel,
-]
 
 Base.metadata.create_all(bind=engine)

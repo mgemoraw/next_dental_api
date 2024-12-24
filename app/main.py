@@ -21,6 +21,6 @@ app.add_middleware(
 )
 
 app.include_router(users_route.router)
-# app.include_router(auth_route.router)
+app.include_router(auth_route.router)
 app.include_router(patients_route.router)
 app.include_router(assets_route.router)

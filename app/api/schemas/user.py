@@ -19,7 +19,7 @@ class UserCreate(BaseModel):
     username: str
     email: str 
     password: str
-    role: str 
+    role_id: Optional[int] = None
 
     class Config:
         orm_mode = True

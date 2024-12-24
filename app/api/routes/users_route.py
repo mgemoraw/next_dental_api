@@ -14,7 +14,7 @@ from api.auth.authentication import (
     role_required,
 )
 
-from api.models import User
+from api.models import User, Role
 from core import get_db
 from fastapi.responses import JSONResponse
 
@@ -36,6 +36,7 @@ def greet():
 async def user_login(form_data: OAuth2PasswordRequestForm = Depends(), db:Session=Depends(get_db)):
     # db_user = authenticate_user(user.username, user.password, db)
     db_user = authenticate_user(form_data.username, form_data.password, db)
+
     if not db_user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -48,12 +49,14 @@ async def user_login(form_data: OAuth2PasswordRequestForm = Depends(), db:Sessio
         data = {"sub": db_user.username}, expires_delta=access_token_expires,
     )
 
+    # grab role
+    role = db.query(Role).filter(Role.id==db_user.role_id).first()
     # Response content
     content = content={
         "access_token": access_token, 
         "token_type": "bearer", 
         "username": db_user.username, 
-        "role": db_user.role,
+        "role": role.name,
         }
     
     response = JSONResponse(content=content)

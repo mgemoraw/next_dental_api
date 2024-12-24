@@ -11,7 +11,7 @@ from datetime import datetime
 class Post(Base):
     __tablename__ = "posts"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id', ondelete='CASCADE', onupdate="CASCADE"))
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
     content: Mapped[str] = mapped_column(String(1024))
     user = relationship('User', back_populates='posts')
 

@@ -12,7 +12,7 @@ class ServiceType(Base):
     code: Mapped[str]  = mapped_column(String(100))
 
     # relationship
-    services: Mapped[List['Service']] = relationship(back_populates='service_type')
+    services: Mapped[List['Service']] = relationship('Service', back_populates='service_type')
 
 
 class Service(Base):
@@ -40,7 +40,7 @@ class Product(Base):
     sale_margin: Mapped[float] = mapped_column()
 
     # relationship
-    inventory: Mapped['Inventory'] = relationship(back_populates='products')
+    inventory: Mapped['Inventory'] = relationship('Inventory', back_populates='products')
 
 
 class Inventory(Base):
@@ -53,7 +53,7 @@ class Inventory(Base):
     sale_margin: Mapped[float] = mapped_column(default=0.0)
 
     # relationship
-    products: Mapped[List[Product]] = relationship(back_populates='inventory')
+    products: Mapped[List[Product]] = relationship('Product', back_populates='inventory')
 
 
 

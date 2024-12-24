@@ -7,7 +7,7 @@ from fastapi import Depends, HTTPException, Request, status
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
-from api.models import User
+from api.models import User, Role
 from api.schemas.user import UserCreate, TokenData, UserLogin
 from core.deps import SECRET_KEY, ALGORITHM, get_db
 
@@ -43,14 +43,17 @@ def delete_user_by_id(db: Session, user_id: int):
 
 def create_user(db: Session, user: UserCreate):
     hashed_password = pwd_context.hash(user.password)
+    # role = db.query(Role).filter(Role.name==user.role).first()
     db_user = User(
         username=user.username, 
         hashed_password=hashed_password, 
-        role=user.role, 
+        # role=user.role, 
         email=user.email,
+        role_id=1,
     )
     db.add(db_user)
     db.commit()
+    db.refresh(db_user)
     return "complete"
 
 def authenticate_user(username: str, password: str, db:Session = Depends(get_db)):

@@ -7,8 +7,8 @@ from core.database import Base, engine
 role_permissions = Table(
     'role_permissions', 
     Base.metadata,    
-    Column('role_id', Integer, ForeignKey('roles.id')),    
-    Column('permission_id', Integer, ForeignKey('permissions.id'))
+    Column('role_id', Integer, ForeignKey('roles.id', ondelete='CASCADE')),    
+    Column('permission_id', Integer, ForeignKey('permissions.id', ondelete='CASCADE'))
 )
 
 
@@ -63,9 +63,9 @@ class Role(Base):
 class Visit(Base):    
     __tablename__ = "visits"
     id = Column(Integer, primary_key=True, index=True)    
-    patient_id = Column(Integer, ForeignKey('patients.id'))    
-    doctor_id = Column(Integer, ForeignKey('doctors.id'))    
-    payment_id = Column(Integer, ForeignKey('payments.id'))    
+    patient_id = Column(Integer, ForeignKey('patients.id', ondelete='CASCADE'))    
+    doctor_id = Column(Integer, ForeignKey('doctors.id', ondelete='CASCADE'))    
+    payment_id = Column(Integer, ForeignKey('payments.id', ondelete='CASCADE'))    
     patient = relationship("Patient", back_populates="visits")    
     doctor = relationship("Doctor", back_populates="visits")    
     payment = relationship("Payment", back_populates="visit")

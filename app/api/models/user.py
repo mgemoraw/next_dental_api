@@ -3,7 +3,7 @@ from typing import List
 from api.schemas.address import Address
 from core.database import Base, engine
 
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, func
+from sqlalchemy import Boolean, Column, Integer, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from datetime import datetime
 
@@ -40,11 +40,12 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True, index=True)
     email = Column(String(100), unique=True, index=True)
-    role = Column(String(50))
+    # role = Column(String(50))
     hashed_password = Column(String(1024))
-
+    role_id=Column(Integer, ForeignKey('roles.id', ondelete='CASCADE'))
     posts = relationship("Post", back_populates='user')
     role = relationship("Role", back_populates="users")
+    
 
     def __repr__(self):
         return self.username
