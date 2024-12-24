@@ -3,7 +3,9 @@ import os
 
 from .patient import (
     PatientForm, 
-    PatientResponse
+    PatientResponse,
+    DoctorAssign,
+    PaymentCreate,
 )
 
 from .create_assets import (

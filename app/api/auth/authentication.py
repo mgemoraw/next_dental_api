@@ -19,6 +19,7 @@ settings = get_settings()
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='api/v1/employees/login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='api/v1/employees/login')
 
 
 credentials_exception = HTTPException( 
@@ -106,9 +107,7 @@ def get_current_active_user(request: Request, db: Session = Depends(get_db)):
     
 
 
-def get_current_user(
-   request: Request, db: Session = Depends(get_db)
-):
+def get_current_user(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if not token:
         logger.info(f"{request.cookies}")
@@ -133,7 +132,34 @@ def get_current_user(
     logger.info(f"User {user.username} found and authenticated")
     return user  # Return the user object
     
+
+
+def get_current_user_role(token: str = Depends(oauth2_scheme)):    
+    credentials_exception = HTTPException( 
+        status_code=status.HTTP_401_UNAUTHORIZED,        
+        detail="Could not validate credentials",        
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    # decode jwt token and extract username   
+    try:        
+      payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])        
+      user_id: str = payload.get("sub")        
+      if user_id is None:            
+        raise credentials_exception    
+    except JWTError:        
+        raise credentials_exception    
     
-def get_logged_user(user: UserCreate = Depends(get_current_active_user)):
-    
-    return user 
+    # db = SessionLocal()    
+    db = get_db()
+    user = db.query(User).filter(User.id == user_id).first()    
+    if user is None:        
+        raise credentials_exception    
+
+    return user.role.name
+
+def role_required(required_role: str):    
+   def role_dependency(current_role: str = Depends(get_current_user_role)):        
+        if current_role != required_role:            
+            raise HTTPException(status_code=403, detail="Forbidden")    
+        return role_dependency

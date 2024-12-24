@@ -34,3 +34,10 @@ class PatientResponse(PatientBase):
     
 class PatientForm(PatientBase):
     pass
+
+
+class DoctorAssign(BaseModel):    
+   doctor_id: int
+
+class PaymentCreate(BaseModel):    
+   amount: float

@@ -5,5 +5,6 @@ from .config import BASE_DIR, get_settings, SECRET_KEY, ALGORITHM
 from .database import SessionLocal
 
 from .deps import get_db 
+from .database import Base 
 
 # load_dotenv()

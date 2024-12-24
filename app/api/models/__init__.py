@@ -1,4 +1,4 @@
-from .employee import Employee, Doctor
+from .employee import Employee
 from .patient import Patient
 from .user import UserModel, User
 from .posts import Post
@@ -9,6 +9,9 @@ from .dental_types import (
     ServiceType,
     Inventory,
 )
+
+
+from .events import Event
 
 from core.database import Base, engine
 

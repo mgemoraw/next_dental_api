@@ -1,5 +1,5 @@
 from datetime import timedelta
-from fastapi import Depends, FastAPI, APIRouter, HTTPException, status
+from fastapi import Depends, FastAPI, APIRouter, HTTPException, status, Response, Request
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 # from jwt.exceptions import InvalidTokenError
@@ -11,6 +11,7 @@ from api.auth.authentication import (
     create_access_token, 
     get_current_active_user, 
     get_current_user,
+    role_required,
 )
 
 from api.models import User
@@ -68,9 +69,24 @@ async def user_login(form_data: OAuth2PasswordRequestForm = Depends(), db:Sessio
     return response
 
 
+
+# @router.get("/admin/dashboard")
+@router.get("/admin")
+async def admin_dashboard(user:User = Depends(get_current_active_user)):    
+    # role: str = Depends(role_required("Admin"))
+   return {"message": "Welcome to the Admin Dashboard"}
+
+# @router.get("/dentist/patients")
+@router.get("/dentist")
+async def dentist_patients(user:User = Depends(get_current_active_user)):  
+    # role: str = Depends(role_required("Dentist"))  
+   return {"message": "Access to patient records"}
+
+
 @router.post("/logout")
-async def logout():
+async def logout(user: User=Depends(get_current_active_user)):
     response = JSONResponse(content={"message": "Successfully logged out"})
     # Set the cookie with an expired date
     response.delete_cookie(key="access_token")
+    
     return response

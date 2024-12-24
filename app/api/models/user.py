@@ -44,7 +44,7 @@ class User(Base):
     hashed_password = Column(String(1024))
 
     posts = relationship("Post", back_populates='user')
-    
+    role = relationship("Role", back_populates="users")
 
     def __repr__(self):
         return self.username
