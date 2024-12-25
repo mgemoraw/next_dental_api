@@ -1,5 +1,7 @@
 # Next dental api
-this api is the api for next-dental-clinic project
+This api is the api for next-dental-clinic project using FastAPI
 
-<Developers>
-Mengitu Getie<meng.get4@gmail.com>
+
+
+## Developers
+Mengitu Getie <meng.get4@gmail.com>
