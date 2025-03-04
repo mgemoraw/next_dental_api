@@ -1,6 +1,8 @@
 annotated-types==0.7.0
 anyio==4.8.0
 cffi==1.17.1
+click==8.1.8
+colorama==0.4.6
 cryptography==44.0.2
 dnspython==2.7.0
 dotenv==0.9.9
@@ -8,6 +10,7 @@ ecdsa==0.19.0
 email_validator==2.2.0
 fastapi==0.115.11
 greenlet==3.1.1
+h11==0.14.0
 idna==3.10
 psycopg2==2.9.10
 pyasn1==0.4.8
@@ -24,3 +27,4 @@ SQLAlchemy==2.0.38
 sqlmodel==0.0.23
 starlette==0.46.0
 typing_extensions==4.12.2
+uvicorn==0.34.0
