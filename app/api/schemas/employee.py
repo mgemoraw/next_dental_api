@@ -22,15 +22,16 @@ class Employee(BaseModel):
         orm_mode = True
 
 class EmployeeForm(BaseModel):
-    id: int
-    employee_id: str
     first_name: str
     middle_name: str
     last_name: str
+    dob: datetime
     email: str
     phone: str
     address: Optional['Address']
     zipcode: str
+    date_employed: Optional['datetime']
+    profession_name:str 
 
     class Config:
         orm_mode = True

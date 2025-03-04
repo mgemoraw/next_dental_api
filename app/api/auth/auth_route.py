@@ -40,13 +40,6 @@ def greet():
     return {"message": "greetings"}
 
 
-@router.post("/register")
-def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = get_user_by_username(db, username=user.username)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username exists")
-    return create_user(db=db, user=user)
-
 
 
 @router.delete("/delete/{id}")
@@ -85,27 +78,4 @@ async def verify_user_token(token: str):
     return {"message": "Token is valid"}
 
 
-@router.get("/users")
-async def get_users(user: user_dependency, db: Session=Depends(get_db)):
-    if user:
-        users = db.query(User).all()
-        return users
-    return {"users": []}
 
-
-@router.post("/posts/post", response_model=None)
-async def create_post(user: user_dependency, post: PostCreate, db:Session = Depends(get_db)):
-    new_post = Post(content=post.content, user_id=post.user_id)
-    db.add(new_post)
-    db.commit()
-    return {"post": post}
-
-
-@router.get("/posts", response_model=List[PostResponse])
-async def read_posts(user: user_dependency, db:Session=Depends(get_db)):
-    posts = db.query(Post,).all()
-
-    # query = db.query(User).join(User.posts,(User.id == Post.user_id))  
-    # results = query.all() 
-    
-    return posts

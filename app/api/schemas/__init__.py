@@ -1,6 +1,11 @@
 
 import os
 
+from .employee import (
+    Employee,
+    EmployeeForm,
+)
+
 from .patient import (
     PatientForm, 
     PatientResponse,
